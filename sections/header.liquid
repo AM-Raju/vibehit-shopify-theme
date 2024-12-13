@@ -6,11 +6,12 @@
         <h1 class="text-xl font-bold truncate">{{ shop.name }}</h1>
       </div>
       <!-- Navigation Menu -->
-      <nav class="hidden md:flex space-x-10" x-data="{open: false}">
+      <nav class="hidden md:flex space-x-10">
         {% for link in section.settings.menu.links %}
           {% if link.links != blank %}
-            <div class="relative ">
-              <button x-on:click="open = !open, console.log(open) " class="inline-flex items-center gap-2">
+            {% assign link_handle = link.handle | replace: '-', '_' %}
+            <div x-data="{ {{link_handle}}: false}" class="relative">
+              <button x-on:click="{{link_handle}} = !{{link_handle}}" class="inline-flex items-center gap-2">
                 <span>{{ link.title }}</span>
                 <span class="w-4 ">{% render 'icon-dropdown' %}</span>
               </button>
@@ -21,14 +22,14 @@
                 x-transition:leave="transition ease-out duration-300"
                 x-transition:leave-start="opacity-100 translate-y-0"
                 x-transition:leave-end="opacity-0 translate-y-3"
-                x-show="open"
-                @click.away="open = false"
-                class="absolute top-8 z-10 -ml-5 transform px-2 w-screen max-w-sm sm:px-0 lg:ml-0 lg:left-1/2 lg:-translate-x-1/2 ">
+                x-show="{{link_handle}}"
+                @click.away="{{link_handle}} = false"
+                class="absolute top-8 z-10 -ml-5  transform px-2 w-screen max-w-sm sm:px-0 lg:ml-0  ">
                 <div class="shadow-lg border ring-black ring-opacity-5 overflow-hidden rounded-lg">
                   <div class="relative grid gap-6 bg-white px-5 py-5 sm:gap-8 sm:px-8">
                     {% for childLink in link.links %}
                       <a href="{{childLink.url}}" class="-m-3 p-2 flex items-start rounded-lg hover:bg-gray-100 transition-all duration-300">
-                        <div class="ml-4">
+                        <div class="">
                           <p class=" text-base font-medium  ">{{ childLink.title }}</p>
                         </div>
                       </a>
