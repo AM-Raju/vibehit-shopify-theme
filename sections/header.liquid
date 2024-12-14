@@ -1,9 +1,17 @@
-<div class="relative bg-white">
+<div x-data="{ mobileMenuOpen: false }" class="relative bg-white">
   <div class="mx-auto p-4 sm:px-6">
-    <div class="flex justify-center items-center">
+    <div class="flex justify-between md:justify-center items-center">
       <!-- Store Name / Store Logo -->
       <div class="flex justify-start lg:flex-1 truncate">
         <h1 class="text-xl font-bold truncate">{{ shop.name }}</h1>
+      </div>
+      <div class="-mr-2 -my-2 ml-3 md:hidden">
+        <button
+          @click="mobileMenuOpen = true"
+          type="button"
+          class="bg-white p-2 inline-flex items-center justify-center focus:outline-none">
+          {% render 'icon-menu' %}
+        </button>
       </div>
       <!-- Navigation Menu -->
       <nav class="hidden md:flex space-x-10">
@@ -26,9 +34,9 @@
                 @click.away="{{link_handle}} = false"
                 class="absolute top-8 z-10 -ml-5  transform px-2 w-screen max-w-sm sm:px-0 lg:ml-0  ">
                 <div class="shadow-lg border ring-black ring-opacity-5 overflow-hidden rounded-lg">
-                  <div class="relative grid gap-6 bg-white px-5 py-5 sm:gap-8 sm:px-8">
+                  <div class="relative grid gap-6 bg-white  py-5 sm:gap-8 sm:px-5">
                     {% for childLink in link.links %}
-                      <a href="{{childLink.url}}" class="-m-3 p-2 flex items-start rounded-lg hover:bg-gray-100 transition-all duration-300">
+                      <a href="{{childLink.url}}" class="-m-3 px-3 py-2 flex items-start rounded-lg hover:bg-gray-100 transition-all duration-300">
                         <div class="">
                           <p class=" text-base font-medium  ">{{ childLink.title }}</p>
                         </div>
@@ -63,6 +71,64 @@
           {% endif %}
         {% endif %}
       </div>
+
+      <!-- Mobile Menu Container -->
+
+      <div x-show="mobileMenuOpen" class="absolute z-10 top-0 inset-x-0 p-2 transform origin-top-left md:hidden ">
+        <div class="shadow-lg rounded-lg ring-1 ring-black ring-opacity-5 bg-white w-full">
+          <div class="p-5 divide-y-2 divide-gray-50">
+
+            <!-- Mobile Menu header title plus close button -->
+            <div class="flex item-center justify-between pb-3">
+              <div>
+                <h1 class="text-lg text-gray-500">{{ section.settings.mobile_menu_title }}</h1>
+              </div>
+              <div class="-mr-2">
+                <button @click="mobileMenuOpen = false" class="bg-white text-gray-500 hover:text-red-500 transition-all duration-300">
+                  {% render 'icon-close' %}
+                </button>
+              </div>
+            </div>
+            <!-- Navigation link for mobile menu -->
+            <div class="pt-3">
+              <div class="grid gap-y-7">
+                {% for link in section.settings.menu.links %}
+                  {% if link.links != blank %}
+                    {% assign mobile_menu_handle = link.handle | replace: '-', '_' %}
+                    <div class="relative" x-data="{ {{mobile_menu_handle}}: false }">
+                      <button
+                        @click="{{ mobile_menu_handle }} = ! {{ mobile_menu_handle }}"
+                        type="button"
+                        class="text-base text-gray-500 hover:text-gray-900 flex items-center justify-between w-full">
+                        {{ link.title }}
+                        <div class="w-4 h-4">
+                          {% render 'icon-dropdown' %}
+                        </div>
+                      </button>
+                      <div
+                        x-show="{{ mobile_menu_handle }}"
+                        x-transition
+                        class="grid gap-y-3 py-3">
+                        {% for childLink in link.links %}
+                          <a href="{{ childLink.url }}" class="-m-3 px-3 py-2 mt-1 flex items-center rounded-md text-gray-500 hover:text-gray-900 hover:bg-gray-50">
+
+                            <span class="ml-5">{{ childLink.title }}</span>
+
+                          </a>
+                        {% endfor %}
+                      </div>
+                    </div>
+                  {% else %}
+                    <a href="{{ link.url }}">{{ link.title }}</a>
+                  {% endif %}
+
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
@@ -73,6 +139,11 @@
     "name": "Header",
     "settings": [
       {
+        "type": "text",
+        "id": "mobile_menu_title",
+        "label": "Mobile Menu Title",
+        "default": "Menu"
+      }, {
         "type": "link_list",
         "label": "Header Menu",
         "id": "menu",
