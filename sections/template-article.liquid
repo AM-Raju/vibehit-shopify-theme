@@ -57,6 +57,61 @@
   {% endfor %}
 </article>
 
+{% if blog.comments_enabled? %}
+  <div id="comment" class="my-8">
+    {% if article.comments_count > 0 %}
+    {% else %}
+      There are no comments.
+    {% endif %}
+  </div>
+
+  <div id="comment_form" class="mb-96">
+
+    {% form 'new_comment'
+      , article %}
+      <div class="flex-1 mx-auto items-center justify-center max-w-4xl px-4">
+        <div class=" md:flex mb-4 gap-4 space-y-4 md:space-y-0">
+          <div class="md:w-1/2 ">
+            <input
+              type="text"
+              name="comment[author]"
+              id="comment_author"
+              class="w-full text-gray-700 border py-3 px-4 outline-none"
+              placeholder="John Doe"
+              required>
+          </div>
+          <div class=" md:w-1/2 ">
+            <input
+              type="text"
+              name="comment[email]"
+              id="comment_email"
+              class="w-full text-gray-700 border py-3 px-4 outline-none"
+              placeholder="john@doe.com"
+              required>
+          </div>
+        </div>
+
+        <div class="">
+          <textarea
+            name="comment[body]"
+            id="comment_text_area"
+            class="w-full border p-3 outline-none min-h-40 resize-none"
+            placeholder="Message"></textarea>
+
+        </div>
+        <div class="flex items-center justify-end mt-3">
+
+          <input
+            type="submit"
+            value="Post Comment"
+            class="px-4 py-2 bg-green-500 hover:bg-green-600 font-semibold transition-all duration-300 cursor-pointer">
+
+        </div>
+      </div>
+    {% endform %}
+  </div>
+{% endif %}
+
 
 {% schema %}
   {
