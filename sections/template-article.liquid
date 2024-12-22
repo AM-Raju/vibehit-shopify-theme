@@ -60,16 +60,82 @@
 {% if blog.comments_enabled? %}
   <div id="comment" class="my-8">
     {% if article.comments_count > 0 %}
+      <div class="flex-1 items-center justify-center m-auto max-w-4xl px-4">
+        <h1 class="text-lg mb-4 font-medium">See what people are saying</h1>
+
+        {% paginate article.comments by 3 %}
+          {% for comment in article.comments %}
+            <div class="flex-1 border my-4 px-4 py-2 sm:px-6 sm:py-4 leading-relaxed">
+              <span class="comment-author">{{ comment.author }}</span>
+              <span class="text-xs text-gray-400">{{ comment.created_at | date: format: 'default' }}</span>
+              <p class="text-sm">{{ comment.content }}</p>
+            </div>
+          {% endfor %}
+          {% if paginate.pages > 1 %}
+            <ul class="pagination flex flex-row ">
+              {% if paginate.previous %}
+                <li class="px-2 py-1 bg-gray-200 border border-gray-500">
+                  <a href="{{ paginate.previous.url }}">Previous</a>
+                </li>
+              {% endif %}
+              {% for part in paginate.parts %}
+                {% if part.is_link %}
+                  <li class="px-2 py-1 bg-gray-200 border border-gray-500">
+                    <a href="{{ part.url }}">{{ part.title }}</a>
+                  </li>
+                {% else %}
+                  <li class="active px-2 py-1 bg-gray-400 border border-gray-500">{{ part.title }}</li>
+                {% endif %}
+              {% endfor %}
+              {% if paginate.next %}
+                <li class="px-2 py-1 bg-gray-200 border border-gray-500">
+                  <a href="{{ paginate.next.url }} ">Next</a>
+                </li>
+              {% endif %}
+            </ul>
+          {% endif %}
+        {% endpaginate %}
+      </div>
     {% else %}
       There are no comments.
     {% endif %}
   </div>
 
+  <!-- Comment Form -->
   <div id="comment_form" class="mb-96">
 
     {% form 'new_comment'
       , article %}
       <div class="flex-1 mx-auto items-center justify-center max-w-4xl px-4">
+        {% if form.errors %}
+          <div class="border p-5">
+            <div class="flex flex-row items-center w-full my-3">
+              <div class="text-red-500">
+                {% render 'icon-warn' %}
+              </div>
+              <div class="text-sm font-medium ml-3">
+                Oh no! Your comment wasn't posted.
+              </div>
+            </div>
+            <ul class="px-4 mb-3 ml-7 list-decimal">
+              {% for error in form.errors %}
+                <li>
+                  <span>{{ form.errors.messages[error] }}</span>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% elsif form.posted_successfully? %}
+          <div class="border p-5">
+            <div class="flex flex-row items-center w-full my-3">
+              <div class="text-green-500">
+                {% render 'icon-success' %}
+              </div>
+              <div class="text-sm font-medium ml-3">
+                Your comment posted successfully</div>
+            </div>
+          </div>
+        {% endif %}
         <div class=" md:flex mb-4 gap-4 space-y-4 md:space-y-0">
           <div class="md:w-1/2 ">
             <input
@@ -96,7 +162,8 @@
             name="comment[body]"
             id="comment_text_area"
             class="w-full border p-3 outline-none min-h-40 resize-none"
-            placeholder="Message"></textarea>
+            placeholder="Message"
+            required></textarea>
 
         </div>
         <div class="flex items-center justify-end mt-3">
