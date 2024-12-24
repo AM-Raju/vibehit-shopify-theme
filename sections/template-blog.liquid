@@ -1,0 +1,61 @@
+<div class="max-w-7xl mx-auto">
+  <h1 class="text-center font-bold text-5xl my-16">{{ blog.title }}</h1>
+  <div>
+
+    {% paginate blog.articles by section.settings.card_count %}
+      <div class="grid grid-cols-3 gap-6">
+        {% for article in blog.articles %}
+          <div class="w-96 h-96 p-5 border">
+            <a href="{{ article.url }}">
+              {% if article.image != blank %}
+                <div class="w-full h-48 overflow-hidden">
+                  <img
+                    class=" object-cover object-center"
+                    src="{{ article.image |  image_url}}"
+                    width=" {{ article.image.width }}"
+                    height=" {{ article.image.height }}"
+                    alt=" {{ article.image.alt }}"
+                    loading="lazy">
+                </div>
+              {% else %}
+                <div class="w-96 h-48  border">
+
+                  {{ 'image' | placeholder_svg_tag: "w-full h-48 object-center" }}
+                </div>
+              {% endif %}
+            </a>
+            <h1 class="font-semibold my-3">{{ article.title }}</h1>
+            {% if article.excerpt.size > 0 %}
+              <p>{{ article.content | strip_html | truncatewords: 15 }}</p>
+            {% else %}
+              <p>{{ article.content | strip_html | truncatewords: 15 }}</p>
+            {% endif %}
+          </div>
+
+        {% endfor %}
+      </div>
+      {% if paginate.pages > 0 %}
+        {{ paginate | default_pagination }}
+      {% endif %}
+    {% endpaginate %}
+  </div>
+</div>
+
+
+{% schema %}
+  {
+    "name": "Blog",
+    "settings": [
+      {
+        "type": "range",
+        "id": "card_count",
+        "label": "Article count per row",
+        "min": 1,
+        "max": 4,
+        "step": 1,
+        "default": 3
+
+      }
+    ]
+  }
+{% endschema %}

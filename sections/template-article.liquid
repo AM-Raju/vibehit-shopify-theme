@@ -2,7 +2,7 @@
   {% for block in section.blocks %}
     {% case block.type %}
       {% when "article_title" %}
-        <div class="flex items-center justify-center text-center">
+        <div class="flex items-center justify-center text-center mb-4">
           <div class="max-w-7xl">
             <a
               href=" {{ blog.url }}"
@@ -14,7 +14,7 @@
         </div>
 
       {% when "article_author" %}
-        <div class="flex items-center justify-center text-center ">
+        <div class="flex items-center justify-center text-center">
           <div class="max-w-7xl ">
             {% if section.settings.enable_author %}
               <small class="font-semibold">Author: {{ article.author }}</small>
@@ -37,7 +37,7 @@
         <div class="max-w-7xl  bg-blue-100 rounded-lg mx-2 md:mx-auto overflow-hidden my-8 md:my-16">
           {% if article.image != blank %}
             <img
-              class="w-full md:h-96 object-cover object-cente"
+              class="w-full md:h-96 object-cover object-center"
               src="{{ article.image | image_url}}"
               width="{{ article.image.width }}"
               height="{{ article.image.height }}"
