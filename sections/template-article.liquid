@@ -71,29 +71,8 @@
               <p class="text-sm">{{ comment.content }}</p>
             </div>
           {% endfor %}
-          {% if paginate.pages > 1 %}
-            <ul class="pagination flex flex-row ">
-              {% if paginate.previous %}
-                <li class="px-2 py-1 bg-gray-200 border border-gray-500">
-                  <a href="{{ paginate.previous.url }}">Previous</a>
-                </li>
-              {% endif %}
-              {% for part in paginate.parts %}
-                {% if part.is_link %}
-                  <li class="px-2 py-1 bg-gray-200 border border-gray-500">
-                    <a href="{{ part.url }}">{{ part.title }}</a>
-                  </li>
-                {% else %}
-                  <li class="active px-2 py-1 bg-gray-400 border border-gray-500">{{ part.title }}</li>
-                {% endif %}
-              {% endfor %}
-              {% if paginate.next %}
-                <li class="px-2 py-1 bg-gray-200 border border-gray-500">
-                  <a href="{{ paginate.next.url }} ">Next</a>
-                </li>
-              {% endif %}
-            </ul>
-          {% endif %}
+          {% render 'pagination'
+            , pagination: paginate %}
         {% endpaginate %}
       </div>
     {% else %}
