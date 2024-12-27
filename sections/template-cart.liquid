@@ -72,22 +72,29 @@
             </div>
           </div>
           <div class="w-full my-4 md:w-80">
-            <h3 class="text-3xl">
-              Subtotal: {{ cart.total_price | money }}
-            </h3>
-            <div class="my-2">
-              <button
-                type="submit"
-                name="update"
-                class="w-full p-3 border border-gray-600 text-gray-600 font-medium hover:bg-gray-600 hover:text-white transition-all duration-300">Update</button>
-            </div>
-
-            <div class="my-2">
-              <button
-                type="submit"
-                name="checkout"
-                class="w-full p-3 border border-gray-500  font-medium bg-gray-600 text-white transition-all duration-300">Checkout</button>
-            </div>
+            {% for block in section.blocks %}
+              {% case block.type %}
+                {% when 'subtotal' %}
+                  <h3 class="text-3xl">
+                    Subtotal: {{ cart.total_price | money }}</h3>
+                {% when 'cart_update' %}
+                  <div class="my-2">
+                    <button
+                      type="submit"
+                      name="update"
+                      class="w-full p-3 border border-gray-600 text-gray-600 font-medium hover:bg-gray-600 hover:text-white transition-all duration-300">Update
+                    </button>
+                  </div>
+                {% when 'checkout' %}
+                  <div class="my-2">
+                    <input
+                      type="submit"
+                      name="checkout"
+                      class="w-full p-3 border border-gray-500  font-medium bg-gray-600 text-white transition-all duration-300 cursor-pointer"
+                      value="Checkout">
+                  </div>
+              {% endcase %}
+            {% endfor %}
           </div>
         </div>
       </form>
@@ -104,3 +111,27 @@
     </div>
   </div>
 {% endif %}
+
+
+{% schema %}
+  {
+                                        "name": "Template Cart",
+                                        "settings": [],
+                                        "blocks": [
+                                          {
+                                            "type": "subtotal",
+                                            "name": "Subtotal",
+                                            "limit": 1
+                                          }, {
+                                            "type": "cart_update",
+                                            "name": "Update",
+                                            "limit": 1
+                                          }, {
+                                            "type": "checkout",
+                                            "name": "Checkout",
+                                            "limit": 1
+                                          }
+                                        ],
+                                        
+                                      }
+                                    {% endschema %}
