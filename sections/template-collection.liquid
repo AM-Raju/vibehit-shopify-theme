@@ -1,0 +1,41 @@
+<div class="px-4 py-8">
+  <h1 class="text-3xl text-center font-semibold mb-10">{{ collection.title }} Collection</h1>
+  <a href="{{ routes.collections_url }}">
+    <div class="max-w-6xl mx-auto">
+      <button class="bg-gray-500 px-3 py-2 text-white hover:bg-gray-700 transition-all duration-500">Back to Collections</button>
+    </div>
+  </a>
+  {% if collection.products.size > 0 %}
+    {% paginate collection.products by section.settings.product_per_page %}
+      <div class="max-w-6xl mx-auto mt-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+          {% for product in collection.products %}
+            {% render 'product-card'
+              , product: product %}
+          {% endfor %}
+        </div>
+      </div>
+
+      {% render 'pagination'
+        , pagination: paginate %}
+    {% endpaginate %}
+
+  {% else %}
+    <p>This collection is empty</p>
+  {% endif %}
+</div>
+
+
+{% schema %}
+  {
+    "name": "Collection Page",
+    "settings": [
+      {
+        "type": "number",
+        "id": "product_per_page",
+        "label": "Product Per Page",
+        "default": 6
+      }
+    ]
+  }
+{% endschema %}

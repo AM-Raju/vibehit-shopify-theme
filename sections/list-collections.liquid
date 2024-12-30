@@ -1,0 +1,29 @@
+<div class="max-w-6xl mx-auto">
+
+  <h1 class="text-center text-3xl my-20 font-semibold">All Collections</h1>
+
+  <div class=" grid grid-cols-1 md:grid-cols-3 gap-9">
+    {% for collection in collections %}
+      {% if collection.featured_image != blank %}
+        {% assign featured_image = collection.featured_image %}
+      {% else %}
+        {% assign featured_image = collection.products.first.featured_image %}
+      {% endif %}
+      <div class="border overflow-hidden p-5 ">
+        <a href="{{ collection.url }}">
+          <div class="w-90 h-72 ">
+            <img
+              class="w-full h-full object-cover object-center transition-all hover:scale-105 duration-700"
+              src="{{ featured_image |  image_url  }}"
+              alt=" {{ collection.title |  escape }}"
+              width="auto"
+              height="auto">
+          </div>
+        </a>
+        <div>
+          <h1 class="font-semibold mt-5">{{ collection.title }} Collections</h1>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>

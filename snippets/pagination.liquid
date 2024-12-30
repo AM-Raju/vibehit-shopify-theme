@@ -2,21 +2,23 @@
   <nav class="flex items-center justify-center mt-3">
     <ul class="flex flex-row gap-1">
       {% if pagination.previous %}
-        <li class="px-3 py-1 bg-gray-200 border border-gray-500">
+        <li class="px-3 py-1 bg-gray-200 border border-gray-500 cursor-pointer">
           <a href="{{ pagination.previous.url }}">Previous</a>
         </li>
       {% endif %}
       {% for part in pagination.parts %}
         {% if part.is_link %}
-          <li class="px-3 py-1 bg-gray-200 border border-gray-500">
-            <a href="{{ part.url }}">{{ part.title }}</a>
-          </li>
+          <a href="{{ part.url }}">
+            <li class="px-3 py-1 bg-gray-200 border border-gray-500 cursor-pointer">
+              {{ part.title }}
+            </li>
+          </a>
         {% else %}
-          <li class="active px-3 py-1 bg-gray-400 border border-gray-500">{{ part.title }}</li>
+          <li class="active px-3 py-1 bg-gray-400 border border-gray-500 cursor-pointer">{{ part.title }}</li>
         {% endif %}
       {% endfor %}
       {% if pagination.next %}
-        <li class="px-3 py-1 bg-gray-200 border border-gray-500">
+        <li class="px-3 py-1 bg-gray-200 border border-gray-500 cursor-pointer">
           <a href="{{ pagination.next.url }} ">Next</a>
         </li>
       {% endif %}
