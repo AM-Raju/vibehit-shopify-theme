@@ -1,6 +1,35 @@
+<!-- CND for swipperjs -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+
+{% style %}
+  .swiper-button-prev,
+  .swiper-button-next {
+    color: black;
+    top: auto;
+    !important;
+    height: 20px
+  }
+
+  .swiper-button-prev::after,
+  .swiper-button-next::after {
+    font-size: 20px
+  }
+
+  .swiper-pagination {
+    bottom: 0 !important
+  }
+  .swiper-pagination-bullet-active {
+    background: black !important;
+
+  }
+{% endstyle %}
+
+
 <div class="max-w-6xl mx-auto my-8">
   <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-    <!-- Product Media -->
+    <!-- Product Media : Desktop -->
     <div class="hidden md:block border ">
       {% for media in product.media %}
         <div class="w-[550px] overflow-hidden mx-auto ">
@@ -9,7 +38,44 @@
         </div>
       {% endfor %}
     </div>
+    <!-- Product Media : Mobile -->
+    <div class="md:hidden">
+      <div class="swiper h-[22rem]">
+        <div class="swiper-wrapper">
+          {% for media in product.media %}
+            <div class="swiper-slide">
+              <div class=" h-80  overflow-hidden mx-auto ">
+                {% render 'product-media'
+                  , media: media %}
+              </div>
+            </div>
+          {% endfor %}
+
+        </div>
+        <!-- Swiper navigation -->
+        <div class="swiper-pagination "></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+      </div>
+    </div>
     <!-- Product Info -->
     <div></div>
   </div>
 </div>
+
+<script>
+    const swiper = new Swiper('.swiper', {
+        direction: 'horizontal',
+        loop: true,
+  
+         pagination: {
+            el: '.swiper-pagination',
+        },
+  
+         navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+  
+    })
+</script>
