@@ -1,0 +1,18 @@
+{% case media.media_type %}
+  {% when 'image' %}
+    <img
+      class="w-full transition-all hover:scale-105 duration-700"
+      src="{{ media |  image_url  }}"
+      alt="{{ media.preview_image.alt }}"
+      width=""
+      height="">
+
+  {% when 'external_video' %}
+    {{ media | external_video_tag: class: 'w-full h-full object-cover object-center' }}
+  {% when 'video' %}
+    {{ media | video_tag: controls: true, class: 'w-full h-full object-cover object-center' }}
+  {% when 'model' %}
+    {{ media | model_viewer_tag }}
+  {% else %}
+    {{ media | media_tag }}
+{% endcase %}

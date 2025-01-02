@@ -1,1 +1,15 @@
-<h1>This is product page</h1>
+<div class="max-w-6xl mx-auto my-8">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+    <!-- Product Media -->
+    <div class="hidden md:block border ">
+      {% for media in product.media %}
+        <div class="w-[550px] overflow-hidden mx-auto ">
+          {% render 'product-media'
+            , media: media %}
+        </div>
+      {% endfor %}
+    </div>
+    <!-- Product Info -->
+    <div></div>
+  </div>
+</div>
