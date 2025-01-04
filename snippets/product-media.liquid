@@ -8,7 +8,7 @@
       height="">
 
   {% when 'external_video' %}
-    {{ media | external_video_tag: class: 'w-full h-full object-cover object-center' }}
+    {{ media | external_video_tag: class: 'w-full h-96 object-cover' }}
   {% when 'video' %}
     {{ media | video_tag: controls: true, class: 'w-full h-full object-cover object-center' }}
   {% when 'model' %}
