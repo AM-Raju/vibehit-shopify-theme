@@ -1,0 +1,17 @@
+<div class=" max-w-6xl mx-auto">
+  {% paginate search.results by 5 %}
+    <div class="grid grid-cols-4">
+      {% for item in search.results %}
+        {% case item.object_type %}
+          {% when 'product' %}
+            {% render 'product-card', product: item %}
+
+          {% else %}
+
+        {% endcase %}
+      {% endfor %}
+    </div>
+
+    {% render 'pagination', pagination: paginate %}
+  {% endpaginate %}
+</div>

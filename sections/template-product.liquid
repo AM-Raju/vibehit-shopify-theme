@@ -199,6 +199,7 @@
     // Method: Get all variant JSON data
     getVariantJSON() {
       this.variantData = this.variantData || JSON.parse(this.querySelector('[type="application/json"]').textContent);
+      console.log('json data', this.variantData);
       return this.variantData;
     }
 
@@ -207,7 +208,10 @@
       this.currentVariant = this.getVariantJSON().find((variant) => {
         const findings = !variant.options
           .map((option, index) => {
+            console.log('this options', this.options, 'option', option);
+
             return this.options[index] === option;
+            // Note: Here this.options means the options selected by users. And option means the option get through each iteration.
           })
           .includes(false);
         if (findings) return variant;
