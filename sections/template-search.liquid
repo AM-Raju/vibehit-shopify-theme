@@ -1,16 +1,36 @@
 <div class=" max-w-6xl mx-auto">
   {% paginate search.results by 5 %}
-    <div class="grid grid-cols-4">
-      {% for item in search.results %}
-        {% case item.object_type %}
-          {% when 'product' %}
-            {% render 'product-card', product: item %}
-
-          {% else %}
-
-        {% endcase %}
-      {% endfor %}
+    <h1 class="text-xl my-4 text-center">Search Result</h1>
+    <div class="flex justify-center items-center w-full ">
+      <form action="{{routes.search_url}}" method="get" class="flex-auto px-32">
+        <div class="relative text-gray-500  bg-red-300  border  mb-8">
+          <input type="search" name="q" placeholder="Search" class="outline-none px-5 py-2 w-full">
+          <button type="submit" class="absolute right-0 top-0 mt-2 mr-2 ">
+            {% render 'icon-search' %}
+          </button>
+        </div>
+      </form>
     </div>
+    {% if search.performed %}
+      {% if search.results.size > 0 %}
+        <p class="text-gray-500 text-center my-10">
+          {{ search.results.size }} results for the "{{ search.terms | escape }}"
+        </p>
+        <div class="grid grid-cols-4 gap-6">
+          {% for item in search.results %}
+            {% case item.object_type %}
+              {% when 'product' %}
+                {% render 'product-card', product: item %}
+              {% else %}
+
+            {% endcase %}
+          {% endfor %}
+        </div>
+
+      {% else %}
+        <div>No result found for the following {{ search.terms | escape }}. Try again with different keyword.</div>
+      {% endif %}
+    {% endif %}
 
     {% render 'pagination', pagination: paginate %}
   {% endpaginate %}

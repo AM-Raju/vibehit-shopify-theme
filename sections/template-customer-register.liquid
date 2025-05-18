@@ -1,0 +1,72 @@
+<div class="h-full flex item-center justify-center py-12 px-6 md:px-4 lg:px-8">
+  {% comment %} Login Form  {% endcomment %}
+  <div class="max-w-md w-full space-y-8">
+    <div>
+      <h1 class="text-center text-3xl font-bold mt-6">Register Account</h1>
+    </div>
+    <div class="mt-8">
+      {% form 'create_customer' %}
+        {% if form.errors %}
+          <div class="block sm:inline">{{ form.errors | default_errors }}</div>
+        {% endif %}
+        <div class="my-2">
+          <label class="sr-only" for="first_name">First Name</label>
+          <input
+            type="text"
+            name="customer[first_name]"
+            id="first_name"
+            autocomplete="given-name"
+            class="relative block w-full px-3 py-2 border"
+            placeholder="First Name">
+        </div>
+
+        <div class="my-2">
+          <label class="sr-only" for="last_name">Last Name</label>
+          <input
+            type="text"
+            name="customer[last_name]"
+            id="last_name"
+            autocomplete="family-name"
+            class="relative block w-full px-3 py-2 border"
+            placeholder="Last Name">
+        </div>
+
+        <div class="my-2">
+          <label class="sr-only" for="birthday">Birthday</label>
+          <input
+            type="date"
+            name="customer[note][Birthday]"
+            id="last_name"
+            class="relative block w-full px-3 py-2 border" />
+        </div>
+
+        <div class="my-2">
+          <label class="sr-only" for="email_address">Email Address</label>
+          <input
+            type="email"
+            name="customer[email]"
+            id="email_address"
+            autocomplete="email"
+            class="relative block w-full px-3 py-2 border"
+            placeholder="Email Address">
+        </div>
+
+        <div class="my-2">
+          <label class="sr-only" for="email_address">Password</label>
+          <input
+            type="password"
+            name="customer[password]"
+            id="password"
+            autocomplete="new-password"
+            class="relative block w-full px-3 py-2 border"
+            placeholder="Password">
+        </div>
+
+        <button type="submit" class="relative w-full py-2 px-4 text-sm font-medium text-white bg-gray-600 hover:bg-gray-800">Register
+        </button>
+      {% endform %}
+    </div>
+
+  </div>
+
+</div>
