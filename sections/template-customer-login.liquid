@@ -39,6 +39,12 @@
     <div>
       <a href="#" x-on:click="loginForm = false, pwRecoverForm = true">Forgot Password</a>
     </div>
+    {% if shop.checkout.guest_login %}
+      <p>Guest Checkout is Allowed</p>
+    {% else %}
+      <p>Guest checkout is currently disabled</p>
+
+    {% endif %}
   </div>
   {% comment %} Recover Password Form  {% endcomment %}
   <div x-show="pwRecoverForm" class="max-w-md w-full space-y-8">
